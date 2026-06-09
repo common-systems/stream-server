@@ -17,7 +17,7 @@ async def on_publish(request: Request):
 async def on_unpublish(request: Request):
     return Response(status_code=200)
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/watch", response_class=HTMLResponse)
 def watch():
     return """
     <!DOCTYPE html>
@@ -35,7 +35,7 @@ def watch():
       <video id="v" controls autoplay muted></video>
       <script>
         const video = document.getElementById('v');
-        const src = `http://${location.hostname}/hls/stream.m3u8`;
+        const src = `${location.protocol}//${location.hostname}/hls/mitchiscool123.m3u8`;
         if (Hls.isSupported()) {
           const hls = new Hls();
           hls.loadSource(src);
