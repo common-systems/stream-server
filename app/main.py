@@ -1,7 +1,21 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, Response
 from fastapi.responses import HTMLResponse
 
 app = FastAPI()
+
+STREAM_KEY = "mitchiscool123"
+
+@app.post("/hooks/publish")
+async def on_publish(request: Request):
+    form = await request.form()
+    key = form.get("name") or form.get("key") or ""
+    if key != STREAM_KEY:
+        return Response(status_code=403)
+    return Response(status_code=200)
+
+@app.post("/hooks/unpublish")
+async def on_unpublish(request: Request):
+    return Response(status_code=200)
 
 @app.get("/", response_class=HTMLResponse)
 def watch():
@@ -21,7 +35,7 @@ def watch():
       <video id="v" controls autoplay muted></video>
       <script>
         const video = document.getElementById('v');
-        const src = `http://${location.hostname}:8080/hls/stream.m3u8`;
+        const src = `http://${location.hostname}/hls/stream.m3u8`;
         if (Hls.isSupported()) {
           const hls = new Hls();
           hls.loadSource(src);
