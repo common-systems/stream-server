@@ -27,7 +27,7 @@ def watch():
           hls.loadSource(src);
           hls.attachMedia(video);
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          video.src = src;  // Safari native HLS
+          video.src = src;
         }
       </script>
     </body>
